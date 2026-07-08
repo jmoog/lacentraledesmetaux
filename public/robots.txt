@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://la-centrale-des-metaux.fr/sitemap-index.xml
