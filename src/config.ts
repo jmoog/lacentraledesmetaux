@@ -39,7 +39,8 @@ const SITE_BASE = {
   placeId: 'ChIJpy6iwiJp5kcRIvrJGMqOcjI',
   googleRating: '4,8',
   googleReviewsCount: 130,
-  ga4: '', // a renseigner
+  ga4: 'G-6KSLFWSEP6',
+  googleSiteVerification: 'rnvloV6RzoSsBmMoObbQce9SAJvFFg7nGQldXCPmsNg',
 };
 
 // Recuperation des avis Google au moment du build (voir src/lib/google-reviews.ts).

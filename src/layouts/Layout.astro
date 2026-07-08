@@ -31,7 +31,12 @@ const {
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <!-- Google Analytics (a renseigner) -->
+  <!-- Verification Google Search Console -->
+  {SITE.googleSiteVerification && (
+    <meta name="google-site-verification" content={SITE.googleSiteVerification} />
+  )}
+
+  <!-- Google Analytics (gtag.js) -->
   {SITE.ga4 && (
     <Fragment>
       <script async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.ga4}`}></script>

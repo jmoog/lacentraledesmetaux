@@ -826,6 +826,22 @@ p  { line-height:1.75; color:var(--text-mid); text-wrap:pretty; }
     p  { font-size:1rem; line-height:1.7; }
     .hero__overtitle { font-size:.68rem; letter-spacing:.06em; padding:.35rem .85rem; }
     .section { padding:3.5rem 0; }
+    /* Réduit la marge entre le header fixe et la note en haut du hero */
+    .hero { padding:1.5rem 0 2.5rem; }
+    /* Titre hero resserré sur mobile (évite les 4 lignes) */
+    .hero__headline { font-size:clamp(1.35rem,5.2vw,1.85rem); line-height:1.15; }
+    /* Mobile : image hero placée juste sous le H1 (rating > surtitre > H1 > image > texte > CTA) */
+    .hero__inner { display:flex; flex-direction:column; align-items:center; gap:.8rem; }
+    .hero__text  { display:contents; }
+    .rating-badge    { order:1; }
+    .hero__overtitle { order:2; }
+    .hero__headline  { order:3; }
+    .hero__img       { order:4; }
+    .hero__sub       { order:5; }
+    .hero__cta       { order:6; }
+    /* Icône (épingle/horloge) collée au texte du titre, même sur 2 lignes */
+    .adresse-horaires__title { display:block; }
+    .adresse-horaires__title svg { display:inline-block; vertical-align:middle; margin-right:.4rem; }
     .hero__logo-mobile { display:block; width:200px; height:auto; margin:.3rem auto .5rem; }
     .burger         { display:flex; position:relative; z-index:200; }
     .hd__cta        { display:none; }
