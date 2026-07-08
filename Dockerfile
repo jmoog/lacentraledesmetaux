@@ -10,8 +10,11 @@ RUN npm ci
 
 # Sources + build
 COPY . .
-# Aucune variable requise : sans GOOGLE_PLACES_API_KEY, les avis Google
-# retombent sur les valeurs statiques du config (cf. src/lib/google-reviews.ts).
+# GOOGLE_PLACES_API_KEY (optionnelle) : transmise au build via un build arg pour
+# recuperer la note et les derniers avis Google au moment du build. Absente, les
+# avis retombent sur les valeurs statiques du config (cf. src/lib/google-reviews.ts).
+ARG GOOGLE_PLACES_API_KEY
+ENV GOOGLE_PLACES_API_KEY=$GOOGLE_PLACES_API_KEY
 RUN npm run build
 
 # ---- Étape 2 : service statique via Nginx ----
