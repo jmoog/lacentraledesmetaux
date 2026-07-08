@@ -831,7 +831,7 @@ p  { line-height:1.75; color:var(--text-mid); text-wrap:pretty; }
     .hero { padding:1.5rem 0 2.5rem; }
     /* Logo visible uniquement sur mobile, au-dessus de "Nous trouver" */
     .adresse-horaires__logo-mobile { display:block; text-align:center; margin-bottom:1.8rem; }
-    .adresse-horaires__logo-mobile img { height:96px; width:auto; margin:0 auto; }
+    .adresse-horaires__logo-mobile img { height:128px; width:auto; margin:0 auto; }
     /* Titre hero resserré sur mobile (évite les 4 lignes) */
     .hero__headline { font-size:clamp(1.35rem,5.2vw,1.85rem); line-height:1.15; }
     /* Mobile : image hero placée juste sous le H1 (rating > surtitre > H1 > image > texte > CTA) */
