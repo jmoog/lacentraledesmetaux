@@ -7,7 +7,7 @@ const SITE_BASE = {
   nom: 'La Centrale des Métaux',
   nomComplet: 'La Centrale des Métaux — Ferrailleur 93',
   logoTexte: '/assets/img/logo/logo-la-centrale-des-metaux.png',
-  logoIcone: '/assets/img/logo/logo-la-centrale-des-metaux-icone.png',
+  logoIcone: '/assets/img/logo/logo-la-centrale-des-metaux-icone.webp',
   responsable: 'Marc CHAINAY',
   tel: '06 61 86 39 05',
   telHref: 'tel:+33661863905',
