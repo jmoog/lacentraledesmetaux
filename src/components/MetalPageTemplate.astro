@@ -49,7 +49,7 @@ const schema = {
   '@type': 'Service',
   name: h1,
   description: seoDesc,
-  provider: { '@type': 'LocalBusiness', name: SITE.nom, telephone: '+33661863905' },
+  provider: { '@id': `${SITE.url}/#organization` },
   areaServed: { '@type': 'AdministrativeArea', name: 'Seine-Saint-Denis (93)' },
 };
 ---

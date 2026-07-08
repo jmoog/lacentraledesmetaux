@@ -15,7 +15,7 @@ const {
   title,
   description,
   canonical,
-  ogImage  = `${SITE.url}/assets/img/og-default.jpg`,
+  ogImage  = `${SITE.url}${SITE.logoTexte}`,
   schema,
   noindex  = false,
 } = Astro.props;
@@ -38,6 +38,8 @@ const schemaOrg = {
         '@id':      `${SITE.url}/#logo`,
         url:        `${SITE.url}${SITE.logoTexte}`,
         contentUrl: `${SITE.url}${SITE.logoTexte}`,
+        width:      512,
+        height:     512,
         caption:    SITE.nom,
         inLanguage: 'fr-FR',
       },
@@ -70,8 +72,10 @@ const schemaOrg = {
       hasMap: SITE.mapsUrl,
       aggregateRating: {
         '@type': 'AggregateRating',
-        ratingValue: SITE.googleRating,
+        ratingValue: SITE.googleRatingNum,
         reviewCount: SITE.googleReviewsCount,
+        bestRating: 5,
+        worstRating: 1,
       },
       contactPoint: [
         {

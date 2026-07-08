@@ -35,9 +35,12 @@ const seoDesc = `Ferrailleur à ${ville.nom} : nous rachetons vos métaux ferreu
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'LocalBusiness',
+  '@id': `${SITE.url}/ferrailleur-a-${ville.slug}/#business`,
+  url: `${SITE.url}/ferrailleur-a-${ville.slug}/`,
   name: `${SITE.nom} — Ferrailleur à ${ville.nom}`,
   description: seoDesc,
   telephone: '+33661863905',
+  image: { '@id': `${SITE.url}/#logo` },
   address: {
     '@type': 'PostalAddress',
     streetAddress: SITE.rue,
@@ -47,6 +50,7 @@ const schema = {
     addressCountry: 'FR',
   },
   areaServed: { '@type': 'City', name: ville.nom },
+  parentOrganization: { '@id': `${SITE.url}/#organization` },
 };
 
 const avisRepli = [
@@ -89,7 +93,7 @@ const avis = SITE.googleReviews && SITE.googleReviews.length
         </div>
       </div>
       <div class="hero__img">
-        <img src="/assets/img/migration/photos-site/vue-sur-entree-la-centrale-des-metaux.jpg" alt={`La Centrale des Métaux, ferrailleur à ${ville.nom}`} width="640" height="400" loading="eager" fetchpriority="high">
+        <img src="/assets/img/migration/photos-site/vue-sur-entree-la-centrale-des-metaux.webp" alt={`La Centrale des Métaux, ferrailleur à ${ville.nom}`} width="640" height="360" loading="eager" fetchpriority="high">
       </div>
     </div>
   </section>

@@ -38,6 +38,7 @@ const SITE_BASE = {
   mapsUrl: 'https://maps.app.goo.gl/Up1aH9F4RzbUtHro6',
   placeId: 'ChIJpy6iwiJp5kcRIvrJGMqOcjI',
   googleRating: '4,8',
+  googleRatingNum: 4.8,
   googleReviewsCount: 130,
   ga4: 'G-6KSLFWSEP6',
   googleSiteVerification: 'rnvloV6RzoSsBmMoObbQce9SAJvFFg7nGQldXCPmsNg',
@@ -52,6 +53,7 @@ const googleData = await fetchGoogleReviews(SITE_BASE.placeId);
 const SITE = {
   ...SITE_BASE,
   googleRating: googleData ? googleData.rating.toFixed(1).replace('.', ',') : SITE_BASE.googleRating,
+  googleRatingNum: googleData ? Number(googleData.rating.toFixed(1)) : SITE_BASE.googleRatingNum,
   googleReviewsCount: googleData ? googleData.total : SITE_BASE.googleReviewsCount,
   // null si pas de donnees live -> les pages utilisent alors leur propre contenu de repli
   googleReviews: googleData?.reviews ?? null,

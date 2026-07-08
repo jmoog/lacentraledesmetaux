@@ -7,6 +7,7 @@ import { PILIERS, PRIX_METAUX } from '../data/services';
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'RecyclingCenter',
+  '@id': `${SITE.url}/#organization`,
   name: SITE.nom,
   description: SITE.seoDesc,
   url: SITE.url,
@@ -72,7 +73,7 @@ const avis = SITE.googleReviews && SITE.googleReviews.length
         </div>
       </div>
       <div class="hero__img">
-        <img src="/assets/img/services/vue-entree.jpg" alt="Entrée de La Centrale des Métaux à Épinay-sur-Seine" width="640" height="400" loading="eager" fetchpriority="high">
+        <img src="/assets/img/services/vue-entree.webp" alt="Entrée de La Centrale des Métaux à Épinay-sur-Seine" width="640" height="360" loading="eager" fetchpriority="high">
       </div>
     </div>
   </section>
