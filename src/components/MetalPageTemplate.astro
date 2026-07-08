@@ -1,0 +1,216 @@
+---
+// src/components/MetalPageTemplate.astro — Template partage pour les pages
+// "Achat de [metal]" (cuivre, laiton, aluminium, plomb, zinc, inox).
+// Reprend a l'identique les sections du design de la page d'accueil
+// (hero, prix, why-sell, adresse-horaires, cta-final) + un breadcrumb.
+import Layout from '../layouts/Layout.astro';
+import SITE from '../config';
+import { PRIX_METAUX } from '../data/services';
+
+interface Props {
+  seoTitle: string;
+  seoDesc: string;
+  breadcrumbLabel: string;
+  overtitle?: string;
+  h1: string;
+  intro: string;
+  image: string;
+  imageAlt: string;
+  image2?: string;
+  image2Alt?: string;
+  sectionTitle: string;
+  sectionText: string;
+  sectionText2?: string;
+  bulletList?: string[];
+  showPrix?: boolean;
+  showBoilerplate?: boolean;
+  showContactBtn?: boolean;
+  showRatingBadge?: boolean;
+  showCtaFinal?: boolean;
+  canonicalSlug: string;
+}
+
+const {
+  seoTitle, seoDesc, breadcrumbLabel, overtitle, h1, intro,
+  image, imageAlt,
+  image2 = '/assets/img/services/recyclage-et-tri-des-metaux.jpg',
+  image2Alt = 'Recyclage et tri des métaux à La Centrale des Métaux',
+  sectionTitle, sectionText, sectionText2, bulletList,
+  showPrix = true,
+  showBoilerplate = true,
+  showContactBtn = true,
+  showRatingBadge = true,
+  showCtaFinal = true,
+  canonicalSlug,
+} = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  name: h1,
+  description: seoDesc,
+  provider: { '@type': 'LocalBusiness', name: SITE.nom, telephone: '+33661863905' },
+  areaServed: { '@type': 'AdministrativeArea', name: 'Seine-Saint-Denis (93)' },
+};
+---
+<Layout title={seoTitle} description={seoDesc} canonical={`${SITE.url}/${canonicalSlug}/`} schema={schema}>
+
+  <nav class="breadcrumb" aria-label="Fil d'Ariane">
+    <div class="container">
+      <a href="/">Accueil</a><span>/</span><strong>{breadcrumbLabel}</strong>
+    </div>
+  </nav>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__text">
+        {showRatingBadge && (
+          <div class="rating-badge">
+            <span class="rating-badge__stars">★★★★★</span>
+            <span class="rating-badge__note">{SITE.googleRating}/5</span>
+            <span class="rating-badge__total">{SITE.googleReviewsCount} avis Google</span>
+          </div>
+        )}
+        {overtitle && <p class="hero__overtitle">{overtitle}</p>}
+        <h1 class="hero__headline">{h1}</h1>
+        <p class="hero__sub">{intro}</p>
+        <div class="hero__cta">
+          <a href={SITE.telHref} class="btn btn--accent btn--lg">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="7" y="2" width="10" height="20" rx="2.4" stroke="#fff" stroke-width="1.8"/><line x1="10.5" y1="18.4" x2="13.5" y2="18.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+            {SITE.tel}
+          </a>
+        </div>
+      </div>
+      <div class="hero__img">
+        <img src={image} alt={imageAlt} width="640" height="400" loading="eager" fetchpriority="high">
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PRIX DES METAUX ========== -->
+  {showPrix && (
+  <section class="section section--light" id="prix">
+    <div class="container">
+      <h2>Nos prix aux cours du marché</h2>
+      <p>Les prix sont susceptibles d'évoluer en fonction des cours du marché et ne sont là qu'à titre d'information ; ils ne constituent en aucun cas un engagement contractuel.</p>
+      <div class="prix-grid">
+        {PRIX_METAUX.map((m, i) => {
+          const [montant, unite] = m.prix.split(' / ');
+          const teinte = i % 2 === 0 ? 'prix-card--wine' : 'prix-card--steel';
+          return (
+            <div class={`prix-card ${teinte}`}>
+              <h3>{m.nom}</h3>
+              <p class="prix-card__sub">{m.sousTitre}</p>
+              <div class="prix-card__price">
+                <span class="prix-card__montant">{montant}</span>
+                <span class="prix-card__unite">/ {unite}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <p class="prix-note">Contactez-nous au {SITE.tel} pour connaître le prix du jour selon la nature et le volume de vos métaux.</p>
+    </div>
+  </section>
+  )}
+
+  <!-- ========== CONTENU ========== -->
+  <section class="section why-sell">
+    <div class="container why-sell__inner">
+      <div class="why-sell__text">
+        <h2>{sectionTitle}</h2>
+        <p>{sectionText}</p>
+        {sectionText2 && <p>{sectionText2}</p>}
+        {bulletList && bulletList.length > 0 && (
+          <ul class="familles__list">
+            {bulletList.map((item) => <li>{item}</li>)}
+          </ul>
+        )}
+        {showBoilerplate && <p>LA CENTRALE DES MÉTAUX est un acteur majeur dans le domaine de la récupération des métaux ferreux et non ferreux. Installé en Seine-Saint-Denis, nous sommes idéalement situés pour prendre en charge la récupération des métaux à Paris, en Seine-Saint-Denis et dans le Val d'Oise et les Yvelines. Le recyclage des métaux ferreux et non ferreux au travers d'une activité de récupération est une longue tradition familiale. Nous en sommes les héritiers directs. Notre savoir-faire a été mis en valeur et, devant le succès grandissant de notre activité, La Centrale des Métaux est devenue une Société par Actions Simplifiée.</p>}
+        {showContactBtn && (
+          <a href={SITE.telHref} class="btn btn--accent btn--lg">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="7" y="2" width="10" height="20" rx="2.4" stroke="#fff" stroke-width="1.8"/><line x1="10.5" y1="18.4" x2="13.5" y2="18.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+            Contactez-nous — {SITE.tel}
+          </a>
+        )}
+      </div>
+      <div class="why-sell__img">
+        <img src={image2} alt={image2Alt} width="560" height="420" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CONTENU PERSONNALISE (slot optionnel) ========== -->
+  <slot />
+
+  <!-- ========== ADRESSE & HORAIRES ========== -->
+  <section class="adresse-horaires">
+    <div class="container adresse-horaires__grid">
+
+      <div class="adresse-horaires__col">
+        <h2 class="adresse-horaires__title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--accent)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+          Nous trouver en Seine-Saint-Denis
+        </h2>
+        <p class="adresse-horaires__addr">{SITE.adresse}</p>
+        <div class="adresse-horaires__btns">
+          <a href={SITE.mapsUrl} class="btn btn--maps" target="_blank" rel="noopener">
+            <img src="/assets/img/migration/icones-tiers/logo-google-maps.png" alt="" width="22" height="22" loading="lazy" decoding="async">
+            Itinéraire Maps
+          </a>
+          <a href={SITE.wazeUrl} class="btn btn--waze" target="_blank" rel="noopener">
+            <img src="/assets/img/migration/icones-tiers/waze-logo.png" alt="" width="22" height="22" loading="lazy" decoding="async">
+            Itinéraire Waze
+          </a>
+        </div>
+      </div>
+
+      <div class="adresse-horaires__col">
+        <h2 class="adresse-horaires__title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          Nos horaires d'ouverture
+        </h2>
+        <ul class="adresse-horaires__list">
+          {SITE.horaires.map((h) => (
+            <li class={h.h === 'Fermé' ? 'is-closed' : ''}>
+              <span class="adresse-horaires__jour">{h.jour}</span>
+              <span class="adresse-horaires__h">{h.h}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== CTA FINAL ========== -->
+  {showCtaFinal && (
+  <section class="cta-final">
+    <div class="container cta-final__inner">
+      {showRatingBadge && (
+        <div class="cta-final__badge">
+          <span class="cta-final__stars">★★★★★</span>
+          <strong>{SITE.googleRating}/5</strong>
+          <span class="cta-final__badge-sep">·</span>
+          <span>{SITE.googleReviewsCount} avis Google</span>
+        </div>
+      )}
+      <h2>Des métaux à vendre en Seine-Saint-Denis ?</h2>
+      <p>Appelez La Centrale des Métaux — devis gratuit, paiement conforme à la réglementation.</p>
+      <div class="cta-final__btns">
+        <a href={SITE.telHref} class="btn btn--accent btn--lg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="7" y="2" width="10" height="20" rx="2.4" stroke="#fff" stroke-width="1.8"/><line x1="10.5" y1="18.4" x2="13.5" y2="18.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+          {SITE.tel}
+        </a>
+        <a href={SITE.mapsUrl} class="btn btn--white btn--lg" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7.75 7-13a7 7 0 10-14 0c0 5.25 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          Nous trouver à Épinay-sur-Seine
+        </a>
+      </div>
+      <p class="cta-final__addr">{SITE.adresse}</p>
+    </div>
+  </section>
+  )}
+
+</Layout>

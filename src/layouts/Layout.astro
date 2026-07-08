@@ -1,0 +1,74 @@
+---
+// src/layouts/Layout.astro
+import SEO from '../components/SEO.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import Fab from '../components/Fab.astro';
+import SITE from '../config';
+import { readFileSync } from 'node:fs';
+
+// CSS integre en inline au build pour supprimer la requete bloquante (LCP)
+const inlineCss = readFileSync('public/assets/css/style.min.css', 'utf8');
+
+interface Props {
+  title?:       string;
+  description?: string;
+  canonical?:   string;
+  ogImage?:     string;
+  schema?:      object | string;
+  noindex?:     boolean;
+}
+
+const {
+  title       = SITE.seoTitle,
+  description = SITE.seoDesc,
+  canonical   = SITE.url + '/',
+  ogImage,
+  schema,
+  noindex     = false,
+} = Astro.props;
+---
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <!-- Google Analytics (a renseigner) -->
+  {SITE.ga4 && (
+    <Fragment>
+      <script async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.ga4}`}></script>
+      <script is:inline define:vars={{ ga4: SITE.ga4 }}>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', ga4);
+      </script>
+    </Fragment>
+  )}
+
+  <SEO
+    title={title}
+    description={description}
+    canonical={canonical}
+    ogImage={ogImage}
+    schema={schema}
+    noindex={noindex}
+  />
+
+  <!-- Favicon -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon/apple-touch-icon.png">
+
+  <!-- Polices auto-hebergees — @font-face dans le CSS inline, font-display:swap -->
+
+  <!-- CSS integre (inline) — pas de requete bloquante -->
+  <style set:html={inlineCss}></style>
+</head>
+<body>
+  <Nav />
+  <slot />
+  <Footer />
+  <Fab />
+  <script src="/assets/js/main.js" is:inline defer></script>
+</body>
+</html>

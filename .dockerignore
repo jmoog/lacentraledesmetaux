@@ -1,0 +1,13 @@
+node_modules
+dist
+.git
+.gitignore
+.env
+.env.example
+.DS_Store
+.astro
+.cache
+npm-debug.log*
+*.md
+photos-migration-astro
+rapport-migration-photos.md

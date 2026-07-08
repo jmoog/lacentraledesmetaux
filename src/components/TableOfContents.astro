@@ -1,0 +1,73 @@
+---
+// src/components/TableOfContents.astro
+// Sommaire ancre, rendu cote serveur — condition necessaire pour que Google
+// puisse generer des sitelinks "pills" a partir des sections de la page.
+// Voir docs a la racine du projet : astro-sitelink-pills.md
+export interface Heading {
+  depth: number;   // 2 pour h2, 3 pour h3...
+  slug: string;    // l'id de l'ancre, SANS le #
+  text: string;    // le libelle affiche
+}
+
+interface Props {
+  headings: Heading[];
+  title?: string;
+  minDepth?: number; // par defaut 2
+  maxDepth?: number; // par defaut 3
+}
+
+const {
+  headings,
+  title = 'Dans cette page',
+  minDepth = 2,
+  maxDepth = 3,
+} = Astro.props;
+
+const items = headings.filter((h) => h.depth >= minDepth && h.depth <= maxDepth);
+---
+
+{items.length > 0 && (
+  <nav class="toc" aria-label={title}>
+    <p class="toc__title">{title}</p>
+    <ul class="toc__list">
+      {items.map((h) => (
+        <li class={`toc__item toc__item--h${h.depth}`}>
+          <a href={`#${h.slug}`}>{h.text}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}
+
+<style>
+  .toc {
+    border: 1px solid var(--border);
+    border-radius: var(--r);
+    padding: 1rem 1.25rem;
+    margin: 0 0 2rem;
+    background: var(--light);
+  }
+  .toc__title {
+    margin: 0 0 0.5rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: var(--dark-d);
+  }
+  .toc__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+  .toc__item--h3 { padding-left: 1rem; }
+  .toc a {
+    text-decoration: none;
+    color: var(--dark);
+    font-size: .9rem;
+  }
+  .toc a:hover { color: var(--accent); text-decoration: underline; }
+  /* decale la cible sous le header sticky */
+  :global(:target) { scroll-margin-top: 90px; }
+</style>

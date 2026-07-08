@@ -1,0 +1,31 @@
+---
+// src/components/Sidebar.astro — Colonne CTA + liens utiles (pages piliers / villes)
+import SITE from '../config';
+import { PILIERS } from '../data/services';
+
+interface Props {
+  autresLiens?: { href: string; label: string }[];
+}
+const { autresLiens = PILIERS.map(p => ({ href: p.href, label: p.label })) } = Astro.props;
+---
+
+<aside class="sidebar">
+  <div class="sidebar__card sidebar__card--cta">
+    <h3>Une question ? Un metal a vendre ?</h3>
+    <p>Devis gratuit, reponse rapide.</p>
+    <a href={SITE.telHref} class="btn btn--accent btn--full">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><rect x="7" y="2" width="10" height="20" rx="2.4" stroke="#fff" stroke-width="1.8"/><line x1="10.5" y1="18.4" x2="13.5" y2="18.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+      {SITE.tel}
+    </a>
+    <p class="sidebar__horaires">Lun-Ven 8h-12h / 14h-18h · Sam 8h-13h30</p>
+  </div>
+
+  <div class="sidebar__card">
+    <h4>A voir aussi</h4>
+    <ul class="sidebar__services">
+      {autresLiens.slice(0, 8).map((l) => (
+        <li><a href={l.href}>{l.label}</a></li>
+      ))}
+    </ul>
+  </div>
+</aside>

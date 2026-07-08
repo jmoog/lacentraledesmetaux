@@ -1,0 +1,381 @@
+---
+// src/pages/index.astro — Page d'accueil : "Ferrailleur 93 - Achat de Metaux"
+import Layout from '../layouts/Layout.astro';
+import SITE from '../config';
+import { PILIERS, PRIX_METAUX } from '../data/services';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'RecyclingCenter',
+  name: SITE.nom,
+  description: SITE.seoDesc,
+  url: SITE.url,
+  telephone: '+33661863905',
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: SITE.rue,
+    addressLocality: SITE.ville,
+    postalCode: SITE.cp,
+    addressRegion: SITE.region,
+    addressCountry: 'FR',
+  },
+  geo: { '@type': 'GeoCoordinates', latitude: SITE.lat, longitude: SITE.lng },
+  areaServed: { '@type': 'AdministrativeArea', name: 'Seine-Saint-Denis (93)' },
+};
+
+// Avis de repli (utilises si l'appel a l'API Google Places echoue ou si aucune
+// cle API n'est configuree — voir src/lib/google-reviews.ts et src/config.ts)
+const avisRepli = [
+  { auteur: 'Nawfel', texte: "Les King en la matière, je suis venu chez eux à plusieurs reprises, j'ai toujours été satisfait, ces gars sont réglo et professionnels, bravo c'est rare de nos jours." },
+  { auteur: 'Marie-Angélique MIRRE', texte: 'Super équipe, la prise en charge est rapide et organisée, très souriants au top.' },
+  { auteur: 'talibanu talibanu', texte: 'Je recommande vivement ce centre de recyclage. Ils sont très aimables. Des bons prix et bien organisés.' },
+  { auteur: 'Karim Isol', texte: "C'est ma deuxième fois, ferrailleur sérieux. Leur équipe est disponible pour répondre aux questions sur les métaux et les prix." },
+  { auteur: 'moha Moh', texte: 'Tout est parfait, bon prix, rapide et efficace, je reviendrai avec plaisir.' },
+];
+
+// Avis live recuperes au build depuis la fiche Google Business Profile (fallback
+// sur avisRepli si SITE.googleReviews est null, cf. commentaire au-dessus)
+const avis = SITE.googleReviews && SITE.googleReviews.length
+  ? SITE.googleReviews.map((r) => ({
+      auteur: r.author,
+      texte: r.text,
+      etoiles: r.rating,
+      temps: r.relativeTime,
+    }))
+  : avisRepli;
+---
+
+<Layout
+  title={SITE.seoTitle}
+  description={SITE.seoDesc}
+  canonical={`${SITE.url}/`}
+  schema={schema}
+>
+
+  <!-- ========== HERO ========== -->
+  <section class="hero">
+    <div class="container hero__inner">
+      <div class="hero__text">
+        <div class="rating-badge">
+          <span class="rating-badge__stars">★★★★★</span>
+          <span class="rating-badge__note">{SITE.googleRating}/5</span>
+          <span class="rating-badge__total">{SITE.googleReviewsCount} avis Google</span>
+        </div>
+        <p class="hero__overtitle">Ferrailleur 93 · Achat de métaux · Seine-Saint-Denis</p>
+        <h1 class="hero__headline">La Centrale des Métaux<br><span class="hero__accent">votre ferrailleur en Seine-Saint-Denis</span></h1>
+        <p class="hero__sub">Bienvenue à la Centrale des Métaux Ferrailleur 93, votre spécialiste de la valorisation des métaux en Seine-Saint-Denis. Particulier, artisan, professionnel du bâtiment ou entreprise : nous achetons vos métaux ferreux et non-ferreux au meilleur prix.</p>
+        <div class="hero__cta">
+          <a href={SITE.telHref} class="btn btn--accent btn--lg">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="7" y="2" width="10" height="20" rx="2.4" stroke="#fff" stroke-width="1.8"/><line x1="10.5" y1="18.4" x2="13.5" y2="18.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+            {SITE.tel}
+          </a>
+        </div>
+      </div>
+      <div class="hero__img">
+        <img src="/assets/img/services/vue-entree.jpg" alt="Entrée de La Centrale des Métaux à Épinay-sur-Seine" width="640" height="400" loading="eager" fetchpriority="high">
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== ADRESSE & HORAIRES ========== -->
+  <section class="adresse-horaires">
+    <div class="container adresse-horaires__grid">
+
+      <div class="adresse-horaires__col">
+        <h2 class="adresse-horaires__title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="var(--accent)"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
+          Nous trouver en Seine-Saint-Denis
+        </h2>
+        <p class="adresse-horaires__addr">{SITE.adresse}</p>
+        <div class="adresse-horaires__btns">
+          <a href={SITE.mapsUrl} class="btn btn--maps" target="_blank" rel="noopener">
+            <img src="/assets/img/migration/icones-tiers/logo-google-maps.png" alt="" width="22" height="22" loading="lazy" decoding="async">
+            Itinéraire Maps
+          </a>
+          <a href={SITE.wazeUrl} class="btn btn--waze" target="_blank" rel="noopener">
+            <img src="/assets/img/migration/icones-tiers/waze-logo.png" alt="" width="22" height="22" loading="lazy" decoding="async">
+            Itinéraire Waze
+          </a>
+        </div>
+      </div>
+
+      <div class="adresse-horaires__col">
+        <h2 class="adresse-horaires__title">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+          Nos horaires d'ouverture
+        </h2>
+        <ul class="adresse-horaires__list">
+          {SITE.horaires.map((h) => (
+            <li class={h.h === 'Fermé' ? 'is-closed' : ''}>
+              <span class="adresse-horaires__jour">{h.jour}</span>
+              <span class="adresse-horaires__h">{h.h}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== INFOS PRATIQUES ========== -->
+  <section class="infos">
+    <div class="container infos__grid">
+
+      <div class="infos__card">
+        <img src="/assets/img/migration/photos-site/icone-accueil-la-centrale-des-metaux.png" alt="" width="96" height="96" loading="lazy" decoding="async">
+        <p>Accueil du lundi au samedi<br>Nous sommes ouverts tout l'été</p>
+        <a href={SITE.mapsUrl} target="_blank" rel="noopener">Nos horaires d'ouverture</a>
+      </div>
+
+      <div class="infos__card">
+        <img src="/assets/img/migration/photos-site/achat-des-metaux-au-meilleur-prix-la-centrale-des-metaux.webp" alt="" width="96" height="96" loading="lazy" decoding="async">
+        <p>Les prix d'achat des métaux sont actualisés en fonction des tendances du marché</p>
+        <a href="#prix">Connaître nos prix</a>
+      </div>
+
+      <div class="infos__card">
+        <img src="/assets/img/migration/photos-site/reglementation-achat-et-vente-de-metaux-icone-la-centrale-des-metaux.png" alt="" width="96" height="96" loading="lazy" decoding="async">
+        <p>Paiement par virement ou chèque sur présentation d'une pièce d'identité dans le cadre de la réglementation en vigueur.</p>
+        <a href="/information-sur-lachat-de-metaux/">En savoir plus</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== 2 FAMILLES DE METAUX ========== -->
+  <section class="familles" id="metaux-non-ferreux">
+    <div class="container">
+      <h2>Nous achetons vos métaux au meilleur prix</h2>
+      <p>Achat de métaux ferreux et non ferreux, batteries au plomb usagées, moteurs électriques, mise à disposition de bennes — tout le recyclage de métaux en Seine-Saint-Denis.</p>
+      <div class="familles__grid">
+
+        <div class="familles__card">
+          <h3>Métaux ferreux</h3>
+          <div class="familles__body">
+            <p>Nous valorisons les métaux ferreux tels que l'acier ou la fonte. Ferraille de chantier, carcasses, chutes métalliques : nous rachetons vos matériaux au meilleur prix, en tenant compte des cours du marché mis à jour quotidiennement.</p>
+          </div>
+          <ul class="familles__list">
+            <li><a href="/achat-de-metaux-ferreux/">Achat de Métaux Ferreux</a></li>
+            <li><a href="/recuperation-de-ferraille-et-achat-de-metaux/">Récupération de ferraille</a></li>
+            <li><a href="/recyclage-metaux/">Recyclage de métaux</a></li>
+          </ul>
+        </div>
+
+        <div class="familles__card">
+          <h3>Métaux non ferreux</h3>
+          <div class="familles__body">
+            <p>Cuivre, laiton, aluminium, zinc, plomb, inox : nous achetons l'ensemble des métaux non ferreux à des tarifs actualisés selon les cours du London Metal Exchange (LME).</p>
+          </div>
+          <ul class="familles__list">
+            <li><a href="/achat-et-recyclage-de-cuivre/">Achat de Cuivre</a></li>
+            <li><a href="/achat-de-laiton/">Achat de Laiton</a></li>
+            <li><a href="/achat-daluminium/">Achat d'Aluminium</a></li>
+            <li><a href="/achat-de-zinc/">Achat de Zinc</a></li>
+            <li><a href="/achat-de-plomb/">Achat de Plomb</a></li>
+            <li><a href="/achat-dinox/">Achat d'Inox</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== PRIX DES METAUX ========== -->
+  <section class="section section--light" id="prix">
+    <div class="container">
+      <h2>Nos prix aux cours du marché</h2>
+      <p>Les prix sont susceptibles d'évoluer en fonction des cours du marché et ne sont là qu'à titre d'information ; ils ne constituent en aucun cas un engagement contractuel.</p>
+      <div class="prix-grid">
+        {PRIX_METAUX.map((m, i) => {
+          const [montant, unite] = m.prix.split(' / ');
+          const teinte = i % 2 === 0 ? 'prix-card--wine' : 'prix-card--steel';
+          return (
+            <div class={`prix-card ${teinte}`}>
+              <h3>{m.nom}</h3>
+              <p class="prix-card__sub">{m.sousTitre}</p>
+              <div class="prix-card__price">
+                <span class="prix-card__montant">{montant}</span>
+                <span class="prix-card__unite">/ {unite}</span>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+      <p class="prix-note">Contactez-nous au {SITE.tel} pour connaître le prix du jour selon la nature et le volume de vos métaux.</p>
+    </div>
+  </section>
+
+  <!-- ========== NOS SERVICES ========== -->
+  <section class="familles" id="services" style="background:var(--white)">
+    <div class="container">
+      <h2>Nos services</h2>
+      <p>Découvrez l'ensemble de nos prestations de rachat et de recyclage de métaux à Épinay-sur-Seine et dans toute la Seine-Saint-Denis.</p>
+      <div class="commune-services__grid">
+        <a href="/location-benne-metaux/" class="commune-services__item">
+          <div class="commune-services__img">
+            <img src="/assets/img/services/bennes.jpg" alt="Mise à disposition de bennes pour métaux" width="400" height="240" loading="lazy" decoding="async">
+          </div>
+          <div class="commune-services__body">
+            <strong>Mise à disposition de bennes</strong>
+            <span>Sur chantier, pour faciliter la gestion de vos déchets métalliques.</span>
+            <span class="commune-services__more">En savoir plus
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+        <a href="/achat-batterie-plomb-usagees/" class="commune-services__item">
+          <div class="commune-services__img">
+            <img src="/assets/img/services/achat-de-batteries-usagees-mc-metal-recyclage.jpg" alt="Achat de batteries au plomb usagées" width="400" height="240" loading="lazy" decoding="async">
+          </div>
+          <div class="commune-services__body">
+            <strong>Achat de batteries au plomb usagées</strong>
+            <span>Batteries automobiles intégrées dans une filière de recyclage.</span>
+            <span class="commune-services__more">En savoir plus
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+        <a href="/achat-de-metaux-ferreux/" class="commune-services__item">
+          <div class="commune-services__img">
+            <img src="/assets/img/services/ferreux.jpg" alt="Achat de métaux ferreux" width="400" height="240" loading="lazy" decoding="async">
+          </div>
+          <div class="commune-services__body">
+            <strong>Achat de métaux ferreux</strong>
+            <span>Acier, fonte — prix et conditions sur demande.</span>
+            <span class="commune-services__more">En savoir plus
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+        <a href="/#metaux-non-ferreux" class="commune-services__item">
+          <div class="commune-services__img">
+            <img src="/assets/img/services/non-ferreux.png" alt="Achat de métaux non-ferreux" width="400" height="240" loading="lazy" decoding="async">
+          </div>
+          <div class="commune-services__body">
+            <strong>Achat de métaux non-ferreux</strong>
+            <span>Cuivre, plomb, laiton et autres métaux non ferreux.</span>
+            <span class="commune-services__more">En savoir plus
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+        <a href="/recyclage-moteurs-electriques/" class="commune-services__item">
+          <div class="commune-services__img">
+            <img src="/assets/img/services/recyclage-de-moteurs-electriques-mc-metal.jpg" alt="Recyclage des moteurs électriques" width="400" height="240" loading="lazy" decoding="async">
+          </div>
+          <div class="commune-services__body">
+            <strong>Recyclage des moteurs électriques</strong>
+            <span>Déposez-nous vos moteurs usagés pour valorisation.</span>
+            <span class="commune-services__more">En savoir plus
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== AVIS GOOGLE ========== -->
+  <section class="reviews">
+    <!-- Logo Google (source unique, reutilisee via <use>) -->
+    <svg style="display:none" aria-hidden="true">
+      <symbol id="google-g" viewBox="0 0 48 48">
+        <path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.1 8 3l6-6C34.5 5.1 29.5 3 24 3 12.4 3 3 12.4 3 24s9.4 21 21 21 21-9.4 21-21c0-1.4-.1-2.8-.4-4.5z"/>
+        <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.5 15.1 18.9 12 24 12c3.1 0 5.8 1.1 8 3l6-6C34.5 5.1 29.5 3 24 3 16.3 3 9.7 7.3 6.3 14.7z"/>
+        <path fill="#4CAF50" d="M24 45c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 36.6 26.7 37.5 24 37.5c-5.3 0-9.7-3.4-11.3-8.1l-6.5 5C9.6 40.5 16.2 45 24 45z"/>
+        <path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-1 2.8-2.9 5.1-5.4 6.6l6.2 5.2C39.9 37.1 44 31.1 44 24c0-1.4-.1-2.8-.4-3.5z"/>
+      </symbol>
+    </svg>
+
+    <div class="container">
+      <div class="reviews__head">
+        <h2>Nos derniers avis clients</h2>
+        <p class="reviews__summary">
+          <svg class="reviews__google-logo" aria-hidden="true"><use href="#google-g"></use></svg>
+          <span class="reviews__stars">★★★★★</span>
+          <strong>{SITE.googleRating}/5</strong>
+          <span class="reviews__summary-sep">·</span>
+          <span>{SITE.googleReviewsCount} avis Google</span>
+        </p>
+      </div>
+      <div class="reviews__wrapper">
+        <div class="reviews__container">
+          {avis.map((a) => (
+              <div class="reviews__card">
+                <span class="reviews__quote-mark" aria-hidden="true">”</span>
+                <div class="reviews__card-top">
+                  <div class="reviews__who">
+                    <span class="reviews__author">{a.auteur}</span>
+                    <span class="reviews__card-stars" aria-label={`Note : ${a.etoiles ?? 5} sur 5`}>{'★'.repeat(a.etoiles ?? 5)}{'☆'.repeat(5 - (a.etoiles ?? 5))}</span>
+                  </div>
+                  <svg class="reviews__google-badge" aria-label="Avis Google"><use href="#google-g"></use></svg>
+                </div>
+                <div class="reviews__content"><p>{a.texte}</p></div>
+                {a.temps && <div class="reviews__footer"><small>{a.temps}</small></div>}
+              </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA FINAL ========== -->
+  <section class="cta-final">
+    <div class="container cta-final__inner">
+      <div class="cta-final__badge">
+        <span class="cta-final__stars">★★★★★</span>
+        <strong>{SITE.googleRating}/5</strong>
+        <span class="cta-final__badge-sep">·</span>
+        <span>{SITE.googleReviewsCount} avis Google</span>
+      </div>
+      <h2>Des métaux à vendre en Seine-Saint-Denis ?</h2>
+      <p>Appelez La Centrale des Métaux — devis gratuit, paiement conforme à la réglementation.</p>
+      <div class="cta-final__btns">
+        <a href={SITE.telHref} class="btn btn--accent btn--lg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="7" y="2" width="10" height="20" rx="2.4" stroke="#fff" stroke-width="1.8"/><line x1="10.5" y1="18.4" x2="13.5" y2="18.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+          {SITE.tel}
+        </a>
+        <a href={SITE.mapsUrl} class="btn btn--white btn--lg" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s7-7.75 7-13a7 7 0 10-14 0c0 5.25 7 13 7 13z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          Nous trouver à Épinay-sur-Seine
+        </a>
+      </div>
+      <p class="cta-final__addr">{SITE.adresse}</p>
+    </div>
+  </section>
+
+  <!-- ========== POURQUOI VENDRE SES METAUX ========== -->
+  <section class="section section--light why-sell">
+    <div class="container why-sell__inner">
+      <div class="why-sell__text">
+        <h2>Ferrailleur, un métier central du recyclage</h2>
+        <p>Le ferrailleur est un maillon essentiel du recyclage et de la protection de l'environnement. En nous vendant vos métaux, vous participez activement à la réduction des déchets et de l'empreinte écologique, à des économies d'énergie considérables, à la préservation des ressources naturelles limitées et à la réduction des coûts de transport et de traitement des déchets.</p>
+        <p>Vous êtes un particulier, un artisan ou un professionnel avec des stocks de métaux ? Vous contribuez à un avenir plus vert tout en valorisant vos déchets moyennant une juste rémunération.</p>
+        <a href={SITE.telHref} class="btn btn--accent btn--lg">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="7" y="2" width="10" height="20" rx="2.4" stroke="#fff" stroke-width="1.8"/><line x1="10.5" y1="18.4" x2="13.5" y2="18.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+          Contactez-nous pour vendre vos métaux — {SITE.tel}
+        </a>
+      </div>
+      <div class="why-sell__img">
+        <img src="/assets/img/services/recyclage-et-tri-des-metaux.jpg" alt="Recyclage et tri des métaux à La Centrale des Métaux" width="560" height="420" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== REGLEMENTATION ========== -->
+  <section class="section why-sell why-sell--reverse" id="reglementation">
+    <div class="container why-sell__inner">
+      <div class="why-sell__text">
+        <h2>Vendre vos métaux : prix et réglementation</h2>
+        <p>À la Centrale des Métaux, nous rendons la vente de vos métaux simple, transparente et conforme à la loi. Le prix proposé pour le rachat de vos métaux est directement lié aux cours mondiaux des matières premières métalliques, établis sur des marchés internationaux de référence comme le London Metal Exchange (LME).</p>
+        <p>La Centrale des Métaux accueille aussi bien les particuliers que les professionnels (artisans, entreprises du bâtiment, industries) souhaitant valoriser leurs déchets métalliques : cuivre, laiton, aluminium, zinc, plomb, inox, câbles électriques, fonte, ferraille, etc.</p>
+        <p>Le métier de ferrailleur est strictement encadré en France afin de prévenir les trafics illicites : pièce d'identité valide obligatoire, registre légal des transactions, paiement exclusivement par chèque barré ou virement bancaire (le paiement en espèces est strictement interdit).</p>
+        <a href="/information-sur-lachat-de-metaux/" class="btn btn--outline">En savoir plus sur la réglementation</a>
+      </div>
+      <div class="why-sell__img why-sell__img--contain">
+        <img src="/assets/img/services/la-centrale-des-metaux-ceryclage-du-metal.jpg" alt="Recyclage du métal à La Centrale des Métaux" width="794" height="950" loading="lazy" decoding="async">
+      </div>
+    </div>
+  </section>
+
+</Layout>

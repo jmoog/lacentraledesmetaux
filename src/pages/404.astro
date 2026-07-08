@@ -1,0 +1,17 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SITE from '../config';
+---
+<Layout title={`Page introuvable — ${SITE.nom}`} description="Cette page n'existe pas ou plus." noindex={true}>
+  <section class="notfound">
+    <div class="notfound__inner">
+      <span class="notfound__code">404</span>
+      <h1>Page introuvable</h1>
+      <p>La page que vous cherchez n'existe pas ou a été déplacée.</p>
+      <div class="notfound__btns">
+        <a href="/" class="btn btn--accent btn--lg">Retour à l'accueil</a>
+        <a href={SITE.telHref} class="btn btn--white btn--lg">{SITE.tel}</a>
+      </div>
+    </div>
+  </section>
+</Layout>

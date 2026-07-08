@@ -1,0 +1,72 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SITE from '../config';
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  name: `Contact — ${SITE.nom}`,
+  url: `${SITE.url}/contact/`,
+};
+---
+<Layout
+  title={`Contact — ${SITE.nom}`}
+  description="Contactez-nous pour obtenir des informations sur l'achat de métaux."
+  canonical={`${SITE.url}/contact/`}
+  schema={schema}
+>
+
+  <nav class="breadcrumb" aria-label="Fil d'Ariane">
+    <div class="container">
+      <a href="/">Accueil</a><span>/</span><strong>Contact</strong>
+    </div>
+  </nav>
+
+  <div class="contact-container">
+    <div class="contact-left">
+      <h1>La Centrale des Métaux</h1>
+      <p>Nous sommes à votre service pour vous répondre sur nos prix d'achat, les matériaux et métaux que nous achetons et les modalités d'achat.</p>
+
+      <div class="contact-methods">
+        <div class="method">
+          <h3>Téléphone</h3>
+          <a href={SITE.telHref}>{SITE.tel}</a>
+        </div>
+      </div>
+
+      <div class="address-section">
+        <h3>Adresse</h3>
+        <p>{SITE.adresse}</p>
+      </div>
+
+      <div class="hours-section">
+        <h3>Horaires d'ouverture</h3>
+        {SITE.horaires.map((h) => (
+          <p>{h.jour} : {h.h}</p>
+        ))}
+      </div>
+
+      <div class="adresse-horaires__btns">
+        <a href={SITE.mapsUrl} class="btn btn--maps" target="_blank" rel="noopener">
+          <img src="/assets/img/migration/icones-tiers/logo-google-maps.png" alt="" width="22" height="22" loading="lazy" decoding="async">
+          Itinéraire Maps
+        </a>
+        <a href={SITE.wazeUrl} class="btn btn--waze" target="_blank" rel="noopener">
+          <img src="/assets/img/migration/icones-tiers/waze-logo.png" alt="" width="22" height="22" loading="lazy" decoding="async">
+          Itinéraire Waze
+        </a>
+      </div>
+    </div>
+
+    <div class="contact-right">
+      <h2>Une question, un devis ?</h2>
+      <p>Pour estimer vos métaux ou connaître nos prix du jour, le plus simple et le plus rapide est de nous appeler directement.</p>
+      <a href={SITE.telHref} class="btn btn--accent btn--lg">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="7" y="2" width="10" height="20" rx="2.4" stroke="#fff" stroke-width="1.8"/><line x1="10.5" y1="18.4" x2="13.5" y2="18.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+        {SITE.tel}
+      </a>
+      <p>Nous vous répondons du lundi au samedi, aux horaires d'ouverture.</p>
+    </div>
+  </div>
+
+</Layout>

@@ -1,0 +1,66 @@
+---
+import Layout from '../layouts/Layout.astro';
+import SITE from '../config';
+import { PILIERS, METAUX_NON_FERREUX, SERVICES_COMPLEMENTAIRES } from '../data/services';
+import { VILLES_93, ARRONDISSEMENTS_PARIS } from '../data/villes';
+
+const pagesPrincipales = [
+  { href: '/', label: 'Accueil' },
+  ...PILIERS.filter((p) => p.slug !== 'ferrailleur-93' && p.slug !== 'achat-de-metaux-non-ferreux'),
+  ...SERVICES_COMPLEMENTAIRES,
+  { href: '/contact/', label: 'Contact' },
+  { href: '/information-sur-lachat-de-metaux/', label: "Information sur l'achat de métaux" },
+  { href: '/mentions-legales/', label: 'Mentions légales' },
+  { href: '/plan-du-site/', label: 'Plan du site' },
+];
+---
+<Layout
+  title={`Plan du site — ${SITE.nom}`}
+  description="Plan du site Ferrailleur 93 La Centrale des Métaux"
+  canonical={`${SITE.url}/plan-du-site/`}
+>
+
+  <nav class="breadcrumb" aria-label="Fil d'Ariane">
+    <div class="container">
+      <a href="/">Accueil</a><span>/</span><strong>Plan du site</strong>
+    </div>
+  </nav>
+
+  <div class="sitemap-container">
+    <h1>Plan du site</h1>
+    <p style="color:var(--muted);margin-bottom:2rem;">Pour vous repérer dans le site</p>
+
+    <div class="sitemap-content">
+
+      <div class="sitemap-section">
+        <h2>Pages</h2>
+        <ul>
+          {pagesPrincipales.map((p) => <li><a href={p.href}>{p.label}</a></li>)}
+        </ul>
+      </div>
+
+      <div class="sitemap-section">
+        <h2>Métaux non ferreux</h2>
+        <ul>
+          {METAUX_NON_FERREUX.map((m) => <li><a href={m.href}>{m.label}</a></li>)}
+        </ul>
+      </div>
+
+      <div class="sitemap-section">
+        <h2>Ferrailleur en Seine-Saint-Denis</h2>
+        <ul>
+          {VILLES_93.map((v) => <li><a href={`/ferrailleur-a-${v.slug}/`}>Ferrailleur à {v.nom}</a></li>)}
+        </ul>
+      </div>
+
+      <div class="sitemap-section">
+        <h2>Ferrailleur à Paris</h2>
+        <ul>
+          {ARRONDISSEMENTS_PARIS.map((v) => <li><a href={`/ferrailleur-a-${v.slug}/`}>Ferrailleur à {v.nom}</a></li>)}
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</Layout>

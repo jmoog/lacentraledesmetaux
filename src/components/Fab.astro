@@ -1,0 +1,51 @@
+---
+// src/components/Fab.astro — Bouton flottant (epingle) + popup contact
+// (logo, adresse, telephone, Waze, Google Maps) — le texte "Nous trouver" tourne
+// en epousant le contour interieur du cercle, le pin reste fixe au centre.
+import SITE from '../config';
+---
+
+<div class="fab" id="fab">
+  <button class="fab__btn" id="fab-btn" aria-label="Nous trouver / Nous contacter" aria-expanded="false">
+    <svg class="fab__ring" viewBox="0 0 64 64" aria-hidden="true">
+      <path id="fab-ring-path" d="M32,11 A21,21 0 1 1 31.9,11" fill="none"/>
+      <text>
+        <textPath href="#fab-ring-path">NOUS TROUVER •</textPath>
+      </text>
+    </svg>
+    <svg class="fab__pin" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
+    </svg>
+  </button>
+
+  <div class="fab__popup" id="fab-popup">
+    <button class="fab__popup-close" id="fab-close" aria-label="Fermer">&times;</button>
+    <div class="fab__popup-header">
+      <img src={SITE.logoIcone} alt={SITE.nom} class="fab__popup-avatar" width="48" height="48" loading="lazy">
+      <div>
+        <div class="fab__popup-name">{SITE.nom}<span class="fab__popup-online"></span></div>
+        <div class="fab__popup-role">Ferrailleur — Seine-Saint-Denis (93)</div>
+      </div>
+    </div>
+    <div class="fab__popup-body">
+      <div class="fab__popup-msg">Vous souhaitez vendre vos métaux ? Appelez-nous ou venez directement à Épinay-sur-Seine.</div>
+      <p class="fab__popup-addr">{SITE.adresse}</p>
+      <div class="fab__popup-actions">
+        <a href={SITE.telHref} class="btn btn--accent btn--full">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="7" y="2" width="10" height="20" rx="2.4" stroke="#fff" stroke-width="1.8"/><line x1="10.5" y1="18.4" x2="13.5" y2="18.4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg>
+          {SITE.tel}
+        </a>
+        <div class="fab__popup-nav">
+          <a href={SITE.wazeUrl} class="btn btn--waze" target="_blank" rel="noopener">
+            <img src="/assets/img/migration/icones-tiers/waze-logo.png" alt="" width="26" height="26" loading="lazy" decoding="async">
+            Waze
+          </a>
+          <a href={SITE.mapsUrl} class="btn btn--maps" target="_blank" rel="noopener">
+            <img src="/assets/img/migration/icones-tiers/logo-google-maps.png" alt="" width="26" height="26" loading="lazy" decoding="async">
+            Maps
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

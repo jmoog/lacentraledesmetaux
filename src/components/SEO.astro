@@ -1,0 +1,125 @@
+---
+// src/components/SEO.astro
+import SITE from '../config';
+
+interface Props {
+  title:       string;
+  description: string;
+  canonical:   string;
+  ogImage?:    string;
+  schema?:     object | string;
+  noindex?:    boolean;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  ogImage  = `${SITE.url}/assets/img/og-default.jpg`,
+  schema,
+  noindex  = false,
+} = Astro.props;
+
+const schemaStr = schema
+  ? (typeof schema === 'string' ? schema : JSON.stringify(schema, null, 0))
+  : '';
+
+// Schema global — present sur toutes les pages
+const schemaOrg = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type':       ['Organization', 'LocalBusiness', 'RecyclingCenter'],
+      '@id':         `${SITE.url}/#organization`,
+      name:          SITE.nom,
+      url:           SITE.url,
+      logo: {
+        '@type':    'ImageObject',
+        '@id':      `${SITE.url}/#logo`,
+        url:        `${SITE.url}${SITE.logoTexte}`,
+        contentUrl: `${SITE.url}${SITE.logoTexte}`,
+        caption:    SITE.nom,
+        inLanguage: 'fr-FR',
+      },
+      image: { '@id': `${SITE.url}/#logo` },
+      description:   SITE.seoDesc,
+      telephone:     '+33661863905',
+      email:         SITE.email,
+      address: {
+        '@type':           'PostalAddress',
+        streetAddress:     SITE.rue,
+        addressLocality:   SITE.ville,
+        postalCode:        SITE.cp,
+        addressRegion:     SITE.region,
+        addressCountry:    'FR',
+      },
+      geo: {
+        '@type':     'GeoCoordinates',
+        latitude:    SITE.lat,
+        longitude:   SITE.lng,
+      },
+      areaServed: {
+        '@type': 'AdministrativeArea',
+        name:    'Seine-Saint-Denis (93), Ile-de-France',
+      },
+      priceRange:    '€€',
+      openingHoursSpecification: [
+        { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday','Tuesday','Wednesday','Thursday','Friday'], opens: '08:00', closes: '18:00' },
+        { '@type': 'OpeningHoursSpecification', dayOfWeek: 'Saturday', opens: '08:00', closes: '13:30' },
+      ],
+      hasMap: SITE.mapsUrl,
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: SITE.googleRating,
+        reviewCount: SITE.googleReviewsCount,
+      },
+      contactPoint: [
+        {
+          '@type':       'ContactPoint',
+          telephone:     '+33661863905',
+          contactType:   'customer service',
+          areaServed:    'FR',
+          availableLanguage: 'French',
+        },
+      ],
+    },
+    {
+      '@type':           'WebSite',
+      '@id':             `${SITE.url}/#website`,
+      name:              `${SITE.nom} — Ferrailleur 93`,
+      url:               SITE.url,
+      publisher:         { '@id': `${SITE.url}/#organization` },
+      inLanguage:        'fr-FR',
+    },
+  ],
+};
+---
+
+<!-- Essentiels -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{title}</title>
+<meta name="description" content={description}>
+<link rel="canonical" href={canonical}>
+{noindex && <meta name="robots" content="noindex, nofollow">}
+
+<!-- Open Graph -->
+<meta property="og:type"        content="website">
+<meta property="og:url"         content={canonical}>
+<meta property="og:title"       content={title}>
+<meta property="og:description" content={description}>
+<meta property="og:image"       content={ogImage}>
+<meta property="og:locale"      content="fr_FR">
+<meta property="og:site_name"   content={SITE.nom}>
+
+<!-- Twitter Card -->
+<meta name="twitter:card"        content="summary_large_image">
+<meta name="twitter:title"       content={title}>
+<meta name="twitter:description" content={description}>
+<meta name="twitter:image"       content={ogImage}>
+
+<!-- Schema.org global — Organization + WebSite -->
+<script type="application/ld+json" set:html={JSON.stringify(schemaOrg)} />
+
+<!-- Schema.org specifique a la page -->
+{schemaStr && <script type="application/ld+json" set:html={schemaStr} />}

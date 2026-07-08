@@ -1,0 +1,225 @@
+---
+import MetalPageTemplate from '../components/MetalPageTemplate.astro';
+---
+<MetalPageTemplate
+  seoTitle="Réglementation sur l'Achat de Métaux — La Centrale des Métaux"
+  seoDesc="Tout savoir sur la réglementation encadrant l'achat et la vente de métaux en France : pièce d'identité, registre, paiement traçable."
+  breadcrumbLabel="Réglementation"
+  h1="Réglementation sur l'Achat de Métaux"
+  intro="Le métier de ferrailleur est strictement encadré en France afin de prévenir les trafics illicites de métaux. La Centrale des Métaux respecte scrupuleusement cette réglementation à chaque transaction."
+  image="/assets/img/migration/photos-site/reglementation-achat-et-vente-de-metaux-icone-la-centrale-des-metaux.png"
+  imageAlt="Réglementation sur l'achat et la vente de métaux"
+  sectionTitle="Ce que dit la loi sur l'achat et la vente de métaux"
+  sectionText="À la Centrale des Métaux, nous rendons la vente de vos métaux simple, transparente et conforme à la loi. Le prix proposé pour le rachat est directement lié aux cours mondiaux des matières premières, établis sur des marchés internationaux de référence comme le London Metal Exchange (LME)."
+  showPrix={false}
+  showBoilerplate={false}
+  showContactBtn={false}
+  showRatingBadge={false}
+  showCtaFinal={false}
+  canonicalSlug="information-sur-lachat-de-metaux"
+>
+
+  <!-- ========== QUI PEUT VENDRE ET DANS QUELLES CONDITIONS ========== -->
+  <section class="section reg">
+    <div class="container">
+
+      <div class="reg__head">
+        <h2>Qui peut vendre, et dans quelles conditions ?</h2>
+        <p>La Centrale des Métaux accueille les particuliers comme les professionnels — artisans, entreprises du bâtiment, industries — qui souhaitent valoriser leurs déchets métalliques. Pour une transaction simple et en toute légalité, voici les trois points essentiels.</p>
+      </div>
+
+      <div class="reg__grid">
+
+        <!-- 1 — Métaux acceptés -->
+        <article class="reg-card">
+          <div class="reg-card__num">1</div>
+          <h3>Les métaux que nous achetons</h3>
+          <p>Une large gamme de métaux ferreux et non ferreux, dès lors qu'ils entrent dans le circuit du recyclage :</p>
+          <ul class="reg-chips">
+            <li>Cuivre</li>
+            <li>Laiton</li>
+            <li>Aluminium</li>
+            <li>Zinc</li>
+            <li>Plomb</li>
+            <li>Inox</li>
+            <li>Câbles électriques</li>
+            <li>Fonte</li>
+            <li>Ferraille</li>
+          </ul>
+          <p class="reg-card__note">Un doute sur la valeur d'un objet ? Un coffre-fort, par exemple, est surtout composé de béton et présente peu d'intérêt. En cas d'hésitation, appelez-nous : on vous renseigne.</p>
+        </article>
+
+        <!-- 2 — Réglementation & traçabilité -->
+        <article class="reg-card">
+          <div class="reg-card__num">2</div>
+          <h3>Réglementation et traçabilité</h3>
+          <p>Le métier de ferrailleur est strictement encadré pour prévenir les trafics et le blanchiment d'argent. À chaque vente :</p>
+          <ul class="reg-list">
+            <li><strong>Pièce d'identité obligatoire</strong> — carte nationale d'identité, passeport ou titre de séjour valide. Pour un document étranger, une attestation d'hébergement peut être demandée.</li>
+            <li><strong>Registre légal des transactions</strong> — nous consignons l'identité des vendeurs et le cumul annuel des ventes. Une garantie de conformité pour tous.</li>
+          </ul>
+        </article>
+
+        <!-- 3 — Paiement sécurisé -->
+        <article class="reg-card">
+          <div class="reg-card__num">3</div>
+          <h3>Des paiements sécurisés</h3>
+          <p>Conformément à la loi, tous les règlements se font par des moyens de paiement traçables :</p>
+          <ul class="reg-list reg-list--check">
+            <li>Chèque barré</li>
+            <li>Virement bancaire ou postal</li>
+          </ul>
+          <p class="reg-card__warn">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+            <span>Le paiement en espèces est <strong>strictement interdit</strong> pour l'achat de métaux. Une garantie de sécurité et de conformité pour la transaction.</span>
+          </p>
+        </article>
+
+      </div>
+
+      <p class="reg__foot">Avec La Centrale des Métaux, vous faites le choix d'un partenaire fiable et transparent, pour une vente de métaux simple et sécurisée.</p>
+
+    </div>
+  </section>
+
+</MetalPageTemplate>
+
+<style>
+  .reg { background: var(--white); }
+
+  .reg__head { max-width: 760px; margin: 0 auto 3rem; text-align: center; }
+  .reg__head h2 { margin-bottom: .75rem; }
+  .reg__head p { color: var(--text-mid); }
+
+  .reg__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.6rem;
+    align-items: start;
+  }
+
+  .reg-card {
+    position: relative;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 2.4rem 1.6rem 1.7rem;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, .05);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .reg-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, .10);
+  }
+
+  .reg-card__num {
+    position: absolute;
+    top: -18px;
+    left: 1.6rem;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 1.15rem;
+    box-shadow: 0 5px 12px rgba(100, 30, 56, .35);
+  }
+
+  .reg-card h3 { font-size: 1.18rem; margin: .3rem 0 .7rem; color: var(--text); }
+  .reg-card p { font-size: .92rem; color: var(--text-mid); margin: 0 0 .9rem; }
+
+  .reg-chips {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    padding: 0;
+    margin: 0 0 1rem;
+  }
+  .reg-chips li {
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--accent-l);
+    border-radius: 999px;
+    padding: .3rem .75rem;
+  }
+
+  .reg-card__note {
+    font-size: .82rem !important;
+    color: var(--muted) !important;
+    border-left: 3px solid var(--border);
+    padding-left: .85rem;
+    margin: 0 !important;
+  }
+
+  .reg-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: .75rem;
+  }
+  .reg-list li {
+    position: relative;
+    padding-left: 1.5rem;
+    font-size: .9rem;
+    color: var(--text-mid);
+    line-height: 1.55;
+  }
+  .reg-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: .45em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+  .reg-list li strong { color: var(--text); }
+
+  .reg-list--check li::before {
+    content: "✓";
+    top: -.05em;
+    left: 0;
+    width: auto;
+    height: auto;
+    background: none;
+    color: var(--accent);
+    font-weight: 800;
+    font-size: 1rem;
+  }
+
+  .reg-card__warn {
+    display: flex;
+    gap: .6rem;
+    align-items: flex-start;
+    font-size: .84rem !important;
+    color: #8a1f1f !important;
+    background: #fdf1f1;
+    border: 1px solid #f4d4d4;
+    border-radius: 12px;
+    padding: .8rem .9rem;
+    margin: 1rem 0 0 !important;
+  }
+  .reg-card__warn svg { flex: none; margin-top: 1px; color: #b02a2a; }
+
+  .reg__foot {
+    max-width: 720px;
+    margin: 3rem auto 0;
+    text-align: center;
+    font-size: 1.02rem;
+    color: var(--text);
+    font-weight: 500;
+  }
+
+  @media (max-width: 900px) {
+    .reg__grid { grid-template-columns: 1fr; gap: 2.2rem; }
+  }
+</style>
