@@ -65,7 +65,7 @@ const avis = SITE.googleReviews && SITE.googleReviews.length
   ? SITE.googleReviews.map((r) => ({ auteur: r.author, texte: r.text, etoiles: r.rating, temps: r.relativeTime }))
   : avisRepli;
 ---
-<Layout title={seoTitle} description={seoDesc} canonical={`${SITE.url}/ferrailleur-a-${ville.slug}/`} schema={schema}>
+<Layout title={seoTitle} description={seoDesc} canonical={`${SITE.url}/ferrailleur-a-${ville.slug}/`} schema={schema} preloadImage="/assets/img/migration/photos-site/vue-sur-entree-la-centrale-des-metaux.webp">
 
   <nav class="breadcrumb" aria-label="Fil d'Ariane">
     <div class="container">
@@ -207,7 +207,7 @@ const avis = SITE.googleReviews && SITE.googleReviews.length
         </a>
         <a href="/#metaux-non-ferreux" class="commune-services__item">
           <div class="commune-services__img">
-            <img src="/assets/img/services/non-ferreux.png" alt="Achat de métaux non-ferreux" width="400" height="240" loading="lazy" decoding="async">
+            <img src="/assets/img/services/non-ferreux.webp" alt="Achat de métaux non-ferreux" width="400" height="240" loading="lazy" decoding="async">
           </div>
           <div class="commune-services__body">
             <strong>Achat de métaux non-ferreux</strong>
