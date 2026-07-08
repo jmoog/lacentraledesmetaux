@@ -54,7 +54,9 @@ const {
   <link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon/apple-touch-icon.png">
 
-  <!-- Polices auto-hebergees — @font-face dans le CSS inline, font-display:swap -->
+  <!-- Polices auto-hebergees — preload des 2 polices critiques (LCP : H1 Montserrat 900, texte Inter 400) -->
+  <link rel="preload" href="/assets/fonts/inter-400-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/assets/fonts/montserrat-900-latin.woff2" as="font" type="font/woff2" crossorigin>
 
   <!-- CSS integre (inline) — pas de requete bloquante -->
   <style set:html={inlineCss}></style>
