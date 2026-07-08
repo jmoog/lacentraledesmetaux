@@ -45,10 +45,10 @@ export interface PrixMetal {
 }
 
 export const PRIX_METAUX: PrixMetal[] = [
-  { nom: 'Cuivre Millberry',    prix: '7,50 € / kg',             sousTitre: 'Fil de cuivre nu, dénudé' },
-  { nom: 'Laiton',              prix: '4,20 € / kg',             sousTitre: 'Alliage cuivre-zinc' },
-  { nom: 'Plomb',               prix: '1,00 € / kg',             sousTitre: 'Gouttières, tuyauterie' },
+  { nom: 'Cuivre Millberry',    prix: '10,30 € / kg',            sousTitre: 'Fil de cuivre nu, dénudé' },
+  { nom: 'Cuivre Mêlé',         prix: '9,30 € / kg',             sousTitre: 'Cuivre mêlé, non trié' },
+  { nom: 'Laiton',              prix: '5,50 € / kg',             sousTitre: 'Alliage cuivre-zinc' },
+  { nom: 'Plomb',               prix: '1,10 € / kg',             sousTitre: 'Gouttières, tuyauterie' },
   { nom: 'Zinc',                prix: '1,30 € / kg',             sousTitre: 'Tôles, bardages' },
-  { nom: 'Câble Cuivre Mêlé',   prix: 'Entre 1,20 € et 6 € / kg', sousTitre: 'Câbles gainés non triés' },
-  { nom: 'Batterie Automobile', prix: '0,25 € / kg',             sousTitre: 'Batteries plomb usagées' },
+  { nom: 'Batterie Automobile', prix: '0,40 € / kg',             sousTitre: 'Batteries plomb usagées' },
 ];
