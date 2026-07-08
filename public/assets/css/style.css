@@ -789,6 +789,27 @@ p  { line-height:1.75; color:var(--text-mid); text-wrap:pretty; }
    ICONES
    ============================================================ */
 .icone { display:inline-block; vertical-align:middle; flex-shrink:0; }
+
+/* ---------------------------------------------------------------
+   BANDEAU COOKIES (consentement RGPD)
+--------------------------------------------------------------- */
+.cookie-banner {
+    position:fixed; left:1rem; right:1rem; bottom:1rem; z-index:130;
+    max-width:660px; margin:0 auto;
+    background:var(--white); border:1px solid var(--border);
+    border-radius:12px; box-shadow:var(--shadow-lg);
+    padding:1.1rem 1.3rem;
+    display:flex; flex-direction:column; gap:.9rem;
+}
+.cookie-banner[hidden] { display:none; }
+.cookie-banner__text { font-size:.86rem; color:var(--text-mid); line-height:1.6; margin:0; }
+.cookie-banner__emoji { font-size:1.15rem; margin-right:.25rem; }
+.cookie-banner__actions { display:flex; gap:.6rem; justify-content:flex-end; flex-wrap:wrap; }
+.cookie-banner__actions .btn { padding:.55rem 1.4rem; font-size:.85rem; }
+@media(min-width:640px) {
+    .cookie-banner { flex-direction:row; align-items:center; justify-content:space-between; gap:1.4rem; }
+    .cookie-banner__actions { flex-shrink:0; }
+}
 .icone--white { filter:brightness(0) invert(1); }
 
 
