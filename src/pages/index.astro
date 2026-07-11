@@ -54,6 +54,59 @@ const avis = SITE.googleReviews && SITE.googleReviews.length
   preloadImage="/assets/img/services/vue-entree.webp"
 >
 
+  <!-- ========== AVIS DE FERMETURE 14 JUILLET ========== -->
+  <aside class="fermeture" role="note" aria-label="Information de fermeture">
+    <div class="container fermeture__inner">
+      <img
+        class="fermeture__img"
+        src="/assets/img/migration/photos-site/14-juillet-2023-lacentrale-des-metaux.jpg"
+        alt="La Centrale des Métaux le 14 juillet"
+        width="504"
+        height="550"
+        loading="lazy"
+        decoding="async"
+      >
+      <p class="fermeture__txt">
+        <strong>Fête nationale — jour férié.</strong><br>
+        La Centrale des Métaux sera exceptionnellement fermée le mardi 14 juillet 2026.<br>
+        Réouverture le mercredi 15 juillet aux horaires habituels.
+      </p>
+    </div>
+  </aside>
+
+  <style>
+    .fermeture {
+      background: #fff8e6;
+      border-top: 3px solid var(--accent, #e8a33d);
+      border-bottom: 3px solid var(--accent, #e8a33d);
+      padding: 1rem 0;
+    }
+    .fermeture__inner {
+      display: flex;
+      align-items: center;
+      gap: 1.25rem;
+    }
+    .fermeture__img {
+      width: 84px;
+      height: 92px;
+      object-fit: cover;
+      border-radius: 8px;
+      flex-shrink: 0;
+    }
+    .fermeture__txt {
+      margin: 0;
+      color: #4a3b17;
+      line-height: 1.5;
+      font-size: 1.02rem;
+    }
+    .fermeture__txt strong { color: #7a5a12; }
+    @media (max-width: 560px) {
+      .fermeture__inner { gap: 0.9rem; }
+      .fermeture__img { width: 64px; height: 72px; }
+      .fermeture__txt { font-size: 0.94rem; }
+    }
+  </style>
+
   <!-- ========== HERO ========== -->
   <section class="hero">
     <div class="container hero__inner">
