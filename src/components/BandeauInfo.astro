@@ -1,0 +1,49 @@
+---
+// src/components/BandeauInfo.astro — Bandeau d'annonce temporaire (fermeture exceptionnelle).
+//
+// Affiche sur TOUTES les pages via src/layouts/Layout.astro.
+//
+// Disparait automatiquement de deux facons :
+//   1. au build : si la date FIN est depassee, rien n'est genere dans le HTML ;
+//   2. cote client : petit script inline, au cas ou le site ne serait pas rebuild a temps.
+//
+// Pour le retirer a la main : supprimer <BandeauInfo /> dans src/layouts/Layout.astro.
+
+// Fin d'affichage : jeudi 30 juillet 2026 a 18h00 (heure de Paris, UTC+2)
+const FIN = '2026-07-30T18:00:00+02:00';
+const visible = Date.now() < new Date(FIN).getTime();
+
+const CSS = `
+.bandeau-info{background:linear-gradient(135deg,#641e38 0%,#4a1629 100%);border-bottom:1px solid rgba(255,255,255,.14)}
+.bandeau-info[hidden]{display:none}
+.bandeau-info__inner{padding-top:.8rem;padding-bottom:.8rem}
+.bandeau-info__icon{display:inline-block;vertical-align:-.28em;margin-right:.45rem;color:#fff;opacity:.92}
+.bandeau-info__txt{margin:0 auto;max-width:76ch;font-size:.9rem;line-height:1.6;color:#fff;text-align:center;text-wrap:balance}
+.bandeau-info__txt strong{color:#fff;font-weight:700}
+@media(max-width:768px){.bandeau-info__inner{padding-top:.7rem;padding-bottom:.7rem}.bandeau-info__txt{font-size:.84rem;text-align:left;text-wrap:pretty}}
+`;
+
+const JS = `(function(){var b=document.getElementById('bandeau-info');if(b&&Date.now()>=new Date(b.dataset.fin).getTime()){b.hidden=true}})();`;
+---
+
+{visible && (
+  <>
+    <style set:html={CSS}></style>
+
+    <aside class="bandeau-info" id="bandeau-info" data-fin={FIN} role="note" aria-label="Information horaires">
+      <div class="container bandeau-info__inner">
+        <p class="bandeau-info__txt">
+          <svg class="bandeau-info__icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.9"/>
+            <path d="M12 7.4v5l3.1 2" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg><strong>Fermeture exceptionnelle&nbsp;:</strong> le <strong>jeudi 30 juillet</strong>, La Centrale des Métaux
+          ferme <strong>à partir de midi</strong> pour la réalisation de son inventaire.
+          Réouverture le <strong>vendredi 31 juillet</strong> aux horaires habituels
+          (08h00–12h00&nbsp;/&nbsp;14h00–18h00).
+        </p>
+      </div>
+    </aside>
+
+    <script is:inline set:html={JS}></script>
+  </>
+)}

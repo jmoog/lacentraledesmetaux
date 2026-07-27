@@ -5,6 +5,7 @@ import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
 import Fab from '../components/Fab.astro';
 import CookieBanner from '../components/CookieBanner.astro';
+import BandeauInfo from '../components/BandeauInfo.astro';
 import SITE from '../config';
 import { readFileSync } from 'node:fs';
 
@@ -65,6 +66,7 @@ const {
 </head>
 <body>
   <Nav />
+  <BandeauInfo />
   <slot />
   <Footer />
   <Fab />
